@@ -1,0 +1,10 @@
+.list-group li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #ccc;
+}
+.list-group li:last-child {
+  border: 0;
+}

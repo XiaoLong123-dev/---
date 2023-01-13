@@ -1,0 +1,77 @@
+header {
+  border-bottom: 5px solid #1abc9c;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.navbar {
+  display: flex;
+  padding: 15px 0;
+  align-items: center;
+}
+.navbar input {
+  display: none;
+}
+.logo {
+  color: #2ecc71;
+  font-size: 20px;
+  margin-right: 18px;
+}
+label {
+  display: none;
+}
+
+.collapse {
+  display: flex;
+  flex-grow: 1;
+}
+.links {
+  display: flex;
+  margin-right: auto;
+}
+.links a {
+  color: black;
+  margin: 0 10px;
+  font-size: 12px;
+}
+.form a {
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.form a:nth-of-type(2) {
+  color: white;
+  background-color: #2ecc71;
+}
+@media screen and (max-width: 960px) {
+  header .navbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  header .navbar .logo {
+    margin-right: auto;
+  }
+  header .navbar label {
+    display: block;
+    border: 1px solid #3498db;
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+
+  header .navbar input:checked + .collapse {
+    display: block;
+  }
+  header .navbar .collapse {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+  }
+  header .navbar .collapse .links {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  header .navbar .collapse .links li {
+    margin: 5px 0;
+  }
+}

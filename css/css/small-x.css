@@ -1,0 +1,43 @@
+body {
+  background-color: purple;
+}
+.container {
+  width: 95%;
+  margin: 0 auto;
+}
+.col-xsm-1 {
+  grid-column: span 1;
+}
+.col-xsm-2 {
+  grid-column: span 2;
+}
+.col-xsm-3 {
+  grid-column: span 3;
+}
+.col-xsm-4 {
+  grid-column: span 4;
+}
+.col-xsm-5 {
+  grid-column: span 5;
+}
+.col-xsm-6 {
+  grid-column: span 6;
+}
+.col-xsm-7 {
+  grid-column: span 7;
+}
+.col-xsm-8 {
+  grid-column: span 8;
+}
+.col-xsm-9 {
+  grid-column: span 9;
+}
+.col-xsm-10 {
+  grid-column: span 10;
+}
+.col-xsm-11 {
+  grid-column: span 11;
+}
+.col-xsm-12 {
+  grid-column: span 12;
+}

@@ -1,0 +1,15 @@
+.card {
+  border: 1px solid #ccc;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+}
+.card .card-header {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+.card .card-body {
+  padding: 1rem;
+}
+.card .card-footer {
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+}

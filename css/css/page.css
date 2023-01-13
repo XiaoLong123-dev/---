@@ -1,0 +1,16 @@
+.page {
+  display: flex;
+  width: 30%;
+  /* margin: 0 8rem; */
+  margin: 0 auto;
+}
+.page a {
+  display: block;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #ccc;
+  margin-left: -1px;
+}
+.page .current {
+  color: #fff;
+  background-color: #1abc9c;
+}
