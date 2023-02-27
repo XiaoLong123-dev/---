@@ -18,27 +18,26 @@
     }
 
     article {
-        width: 300px;
-        height: 300px;
+        margin: 0 auto;
+        width: 400px;
+        height: 400px;
         border: solid 5px silver;
         display: grid;
-        /* grid-template: repeat(3, 100px)/repeat(3, 100px);
-         */
-        /* 栅格线命名 */
-        grid-template-rows: [r1-start] 100px [r1-end r2-start] 100px [r2-end r3-start] 100px [r3-end];
-        grid-template-columns: [c1-start] 100px [c1-end c2-start] 100px [c2-end c3-start] 100px [c3-end];
+        grid-template-rows: repeat(auto-fill, [r] 100px);
+        grid-template-columns: repeat(auto-fill, [l] 100px);
     }
 
-    div {
-        background-color: blueviolet;
+    article div {
+        background: blueviolet;
         background-clip: content-box;
         padding: 10px;
+        border: solid 1px blueviolet;
+        font-size: 30px;
+        color: white;
+    }
 
-        /* 在中间 */
-        grid-row-start: r2-start;
-        grid-row-end: r2-end;
-        grid-column-start: c2-start;
-        grid-column-end: c2-end;
+    article div:first-child {
+        grid-area: r 2/l 2/r 4/l 4;
     }
 </style>
 
@@ -46,7 +45,7 @@
 
 <body>
     <article>
-        <div></div>
+        <div>11111</div>
     </article>
 </body>
 

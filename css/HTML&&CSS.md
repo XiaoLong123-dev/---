@@ -2094,6 +2094,52 @@ grid-template-columns:10% auto 20%;
 </style>
 ```
 
+<b>区域占位</b>
+
+使用一个或多个 连续的`.` 定义区域占位。
+
+```css
+ article {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-rows: repeat(3, 33.3%);
+        grid-template-columns: repeat(3, 33.3%);
+        grid-template-areas: "top . ."
+            "top . ."
+            "bottom bottom bottom";
+    }
+```
+
+
+
+<b>简写形式</b>
+
+使用 grid-template 进行栅格划分会更简洁。
+
+语法格式为：
+
+```text
+ grid-template:
+      '栅格名称 栅格名称 栅格名称 栅格名称' 行高
+      '栅格名称 栅格名称 栅格名称 栅格名称' 行高
+      '栅格名称 栅格名称 栅格名称 栅格名称' 行高/列宽 列宽 列宽 列宽;
+      
+      
+      
+body {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template:
+      'header header header header' 80px
+      'nav main main aside' auto
+      'footer footer footer footer' 50px/100px auto 50px 60px;
+  }
+```
+
+
+
 ##### 组合定义
 
 ``grid-template``是``grid-template-rows``、``grid-template-columns``、``grid-template-areas``三个属性的简写
@@ -2220,6 +2266,15 @@ gap:20px 10px;
 | grid-column-start | 列开始栅格线 |
 | grid-column-end   | 列结束栅格线 |
 
+上面几个样式属性可以使用以下值
+
+| 属性值        | 说明                               |
+| ------------- | ---------------------------------- |
+| Line          | 栅格络                             |
+| span 数值     | 栅格包含的栅格数量                 |
+| span 区域名称 | 栅格包含到指定的区域名称           |
+| auto          | 自动设置，默认为一个网格宽度和高度 |
+
 ##### 栅格线位置定位
 
 规定行开始线位置与行结束线位置以及列开始线位置和列结束线位置。
@@ -2230,8 +2285,8 @@ grid-template-columns: repeat(3, 100px);
 
 grid-row-start: 2;
 grid-column-start: 2;
-grid-row-end: 2;
-grid-column-end: 2;
+grid-row-end: 3;
+grid-column-end: 3;
 ```
 
 ##### 栅格线自定义名称定位
@@ -2294,10 +2349,18 @@ grid-column-end: span 3;
 ```css
 　　行线开始/列线开始/行线结束/列线结束
 
-　　grid-area: 2/1/span 1/span 3;
+　　grid-area: 2/1/1/3;
 ```
 
+#### 栅格流动
 
+在容器中设置`grid-auto-flow` 属性可以改变单元格排列方式。
+
+| 选项   | 说明                                   |
+| ------ | -------------------------------------- |
+| column | 按列排序                               |
+| row    | 按行排列                               |
+| dense  | 元素使用前面空余栅格（下面有示例说明） |
 
 
 
@@ -2364,3 +2427,165 @@ grid-column-end: span 3;
 
 
 
+
+
+
+
+
+
+### 工作中的遇到的问题
+
+1.css实现页面底部固定在屏幕最下方,内容占满屏后紧跟其后的两种方法
+
+```css
+<body>
+<div class="wrapper">
+	<head></head>
+	<div class="content"></div>
+	<footer><footer>
+</div>
+</body>
+
+.wrapper {
+  width: 100%;
+  /*必须 */
+  display: flex;
+  /* 必须，规定元素的排列方向 */
+  flex-direction: column;
+  /* 必须占满屏 */
+  height: 100%;
+  /* 没有这个就不能滚动了 */
+  overflow: auto;
+}
+.content {
+  width: 100%;
+  flex: 1;
+}
+footer {
+  flex: 0;
+}
+```
+
+
+
+2.element-ui单条数据校验
+
+        <template>
+      <div class="wrapper">
+        <div class="container">
+        <!-- 登录表单 -->
+        <div class="login">
+          <!-- 选项卡 -->
+          <el-tabs
+            v-model="activeName"
+            @tab-click="handleClick"
+            class="login-form"
+          >
+            <el-tab-pane label="短信登录" name="messagelogin">
+              <el-form
+                ref="messageForm"
+                :model="messageForm"
+                :rules="messageRules"
+              >
+                <el-form-item prop="phonenumber">
+                  <el-input
+                    v-model="messageForm.phonenumber"
+                    type="text"
+                    auto-complete="off"
+                    placeholder="手机号"
+                  >
+                    <svg-icon
+                      slot="prefix"
+                      icon-class="user"
+                      class="el-input__icon input-icon"
+                    />
+                  </el-input>
+                </el-form-item>
+                <el-form-item prop="smsCode">
+                  <el-input
+                    v-model="messageForm.smsCode"
+                    type="text"
+                    auto-complete="off"
+                    placeholder="验证码"
+                    style="width: 63%"
+                    @keyup.enter.native="handleLogin"
+                  >
+                    <svg-icon
+                      slot="prefix"
+                      icon-class="password"
+                      class="el-input__icon input-icon"
+                    />
+                  </el-input>
+                  <div id="btn" class="login-message" @click="getCodeSms">
+                    获取验证码
+                  </div>
+                </el-form-item>
+                <el-form-item style="width: 100%">
+                  <el-button
+                    :loading="loading"
+                    size="medium"
+                    type="primary"
+                    style="width: 100%"
+                    @click.native.prevent="handleLogin"
+                  >
+                    <span v-if="!loading" style="font-size: 1.3vh">登 录</span>
+                    <span v-else style="font-size: 1.3vh">登 录 中...</span>
+                  </el-button>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+    </div>
+      </div>
+    </template>
+    <script>
+    export default {
+      name: "myLogin",
+      data() {
+        return {
+          // 短信登录
+          messageForm: {
+            phonenumber: "",
+            smsCode: "",
+          },
+           // 短信登录表单校验
+      messageRules: {
+        phonenumber: [
+          { required: true, trigger: "blur", message: "请输入您的手机号" },
+          {
+            pattern: /^1[3-9]\d{9}$/,
+            message: "手机号码格式不正确",
+            trigger: "blur",
+          },
+        ],
+        smsCode: [
+          { required: true, trigger: "blur", message: "请输入您的验证码" },
+        ],
+      },
+    };
+     },
+    
+      methods: {
+        // 获取手机验证码
+        getCodeSms() {
+          this.$refs.messageForm.validateField("phonenumber", (valid) => {
+            // 校验成功valid没有值，校验失败valid的值是错误信息
+            if (!valid) {
+              getCodeSms(this.messageForm.phonenumber).then((res) => {
+                if (res.success) {
+                  this.$message.success("获取成功");
+                  document.querySelector("#btn").classList.add("notclick");
+                  setTimeout(() => {
+                    document.querySelector("#btn").classList.remove("notclick");
+                  }, 60000);
+                } else {
+                  this.$message.error("获取失败");
+                }
+              });
+            }
+          });
+        },
+    
+    };
