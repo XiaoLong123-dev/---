@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // let obj = {};
+        // let arr = 'ss';
+        // console.log(typeof arr + arr);
+        // console.log(obj.hasOwnProperty(typeof arr + arr));
+        var arr = [1, 1, 'true', 'true', true, true, 15, 15, false, false, undefined, undefined, null, null, NaN, NaN, 'NaN', 0, 0,
+            'a', 'a', {}, {}];
+        var arr1 = [1, 1, 'true', 'true', true, true, 15, 15, false, false, undefined, undefined, null, null, NaN, NaN, 'NaN', 0, 0,
+            'a', 'a', {}, {}];
+
+        // hasOwnProperty()去重
+        // hasOwnProperty() 只会检查对象的自有属性，对象原形上的属性其不会检测；
+        function myhasOwnProperty(arr) {
+            let obj = {};
+            let res = arr.filter(item => {
+                // obj.hasOwnProperty(typeof item + item)  判断 当前参数的类型拼接上当前参数的值 是否已经存在对象中，加上类型判断更加准确
+                if (obj.hasOwnProperty(typeof item + item)) {
+                    return false
+                } else {
+                    obj[typeof item + item] = true
+                    return true
+                }
+            })
+            return res
+        }
+
+
+        console.log(myhasOwnProperty(arr));
+
+        // set去重
+        // 无法去除 {}
+        function myset(arr) {
+            let res = Array.from(new Set(arr))
+            return res
+        }
+        console.log(myset(arr));
+
+        // indexof去重
+        // 无法去除 nan {}
+        function myindexof(arr) {
+            let res = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (res.indexOf(arr[i]) === -1) {
+                    res.push(arr[i])
+                }
+            }
+            return res
+        }
+        console.log(myindexof(arr));
+
+        // splice
+        // 会改变原数组
+        // NaN和{}没有去重，两个null直接消失了
+        function mysplice(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = i + 1; j < arr.length; j++) {
+                    if (arr[i] == arr[j]) {
+                        arr.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+            return arr
+        }
+        console.log(mysplice(arr1));
+
+        // map去重
+        // 创建一个空Map数据结构，遍历需要去重的数组，把数组的每一个元素作为key存到Map中。
+        // 由于Map中不会出现相同的key值，所以最终得到的就是去重后的结果
+        // 无法去除{}
+        function mymap(arr) {
+            let map = new Map();
+            let array = new Array();  // 数组用于返回结果
+            for (let i = 0; i < arr.length; i++) {
+                if (map.has(arr[i])) {  // 如果有该key值
+                    map.set(arr[i], true);
+                } else {
+                    map.set(arr[i], false);   // 如果没有该key值
+                    array.push(arr[i]);
+                }
+            }
+            return array;
+        }
+        console.log(mymap(arr));//   [1, 'true', true, 15, false, undefined, null, NaN, 'NaN', 0, 'a', {…}, {…}]
+    </script>
+
+</body>
+
+</html>
