@@ -12,13 +12,87 @@
 <body>
 
     <script>
-        let arr = [{
-            a: 1,
+        // let lession = [
+        //     { title: '后盾人1', class: 'flex布局1' },
+        //     { title: '后盾人2', class: 'flex布局2' },
+        //     { title: '后盾人3', class: 'flex布局3' },
+        // ];
+        // function template() {
+        //     return `
+        //     <ul>
+        //         ${lession.map(item =>
+        //         links`<li>作者是${item.title},课程是${item.class}</li>`
+        //     ).join("")}
+        //         </ul>
+        //     `;
+        // };
 
-        }, { b: 2 }];
-        for (const iterator of arr) {
-            console.log(iterator);
+        // function links(strings, ...vars) {
+        //     // console.log(strings);
+        //     // console.log(vars);
+        //     return strings.map((item, key) => {
+        //         // console.log(vars[key]);
+        //         return item + (vars[key] ? vars[key].replace('后盾人', '<a href="#">后盾人</a>') : "")
+        //     })
+        // };
+        // document.body.innerHTML += template()    
+        // let number = 99.556;
+        // // console.log(typeof number.toFixed(2));
+        // console.log(Number.isNaN(number / 'ss')); // true
+        // console.log(Object.is(number / 'wq', NaN));// true
+        // console.log(parseInt('123dshfos'));//123 
+        // console.log(parseInt('ewwr123dshfos'));// nan
+        // console.log(parseFloat('ewwr123dshfos'));//nan
+        // console.log(parseFloat('123.33dshfos'));//123.33
+        // console.log(Number([]));// 0
+        // console.log(Number([1, 2]));// nan
+        // console.log(Number([1]));// 1
+        // console.log(Number({}));//nan
+        // let arr = [1, 2, 3, 4];
+        // console.log(Math.max.apply(null, arr));// 4
+        // let name = ['张三', '里斯', '婉儿', '王五'];
+        // // let index = Math.floor(Math.random() * name.length)
+        // // console.log(name[index]);
+        // // 封装函数
+        // function arraryRadom(arr, start = 1, end) {
+        //     // 判断是否传入end
+        //     end = end ? end : arr.length;
+        //     // 传入的不是索引
+        //     let index = start + Math.floor(Math.random() * (end - start));
+        //     console.log(index);
+        //     return arr[index]
+        // }
+        // console.log(arraryRadom(name, 1));
+        // let start = Date.now();
+        // for (let i = 0; i < 100000000; i++) { }
+        // let end = Date.now()
+        // console.log(end - start);
+        // console.time('for'); // 开始时间
+        // console.timeEnd('for');// 脚本结束时间
+        // 时间转时间戳
+        let date = new Date('1996-7-12 08:22:12');
+        // console.log(date * 1);
+        // console.log(Number(date));
+        // console.log(date.valueOf());
+        // console.log(date.getTime());
+        // //  时间戳转时间
+        // let timestamp = date.getTime();
+        // console.log(new Date(timestamp));
+        function formatDate(date, format = "YYYY-MM-DD HH:mm:ss") {
+            let config = {
+                YYYY: date.getFullYear(),
+                MM: date.getMonth() + 1,
+                DD: date.getDate(),
+                HH: date.getHours(),
+                mm: date.getMinutes(),
+                ss: date.getSeconds(),
+            }
+            for (let key in config) {
+                format = format.replace(key, config[key])
+            }
+            return format
         }
+        console.log(formatDate(date));
     </script>
 </body>
 

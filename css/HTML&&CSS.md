@@ -2297,6 +2297,489 @@ grid-column-end: span 3;
 　　grid-area: 2/1/span 1/span 3;
 ```
 
+#### 栅格流动
+
+在容器中设置`grid-auto-flow` 属性可以改变单元格排列方式。
+
+| 选项   | 说明                                   |
+| ------ | -------------------------------------- |
+| column | 按列排序                               |
+| row    | 按行排列                               |
+| dense  | 元素使用前面空余栅格（下面有示例说明） |
+
+##### 基本使用
+
+按列排列
+
+```js
+<style>
+  article {
+      width: 400px;
+      height: 400px;
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      border: solid 5px silver;
+      grid-auto-flow: column;
+  }
+
+  div {
+      background: blueviolet;
+      background-clip: content-box;
+      padding: 10px;
+      font-size: 35px;
+      color: white;
+  }
+</style>
+...
+
+<article>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+</article>
+```
+
+##### 强制填充
+
+当元素在栅格系统中放不下的时候，会发生换行，使用``grid-auto-flow:row dense``可以让元素强制不换行
+
+```html
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        padding-left: 200px;
+        padding-top: 200px;
+    }
+
+    article {
+        width: 600px;
+        height: 600px;
+        display: grid;
+        grid-template-rows: repeat(3, 200px);
+        grid-template-columns: repeat(3, 200px);
+        border: solid 5px silver;
+        grid-auto-flow: row dense;
+    }
+
+    div {
+        background: blueviolet;
+        background-clip: content-box;
+        padding: 10px;
+        font-size: 35px;
+        color: white;
+    }
+
+    article div:nth-child(1) {
+        grid-column: 1/span 2;
+        background: #000;
+    }
+
+    article div:nth-child(2) {
+        grid-column: 2/span 1;
+    }
+</style>
+...
+
+<article>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+</article>
+```
+
+#### 对齐管理
+
+可以通过属性方便的定义栅格或元素的对齐方式
+
+| 选项            | 说明                                             | 对象     |
+| --------------- | ------------------------------------------------ | -------- |
+| justify-content | 所有栅格在容器中的水平对齐方式，容器有额外空间时 | 栅格容器 |
+| align-content   | 所有栅格在容器中的垂直对齐方式，容器有额外空间时 | 栅格容器 |
+| align-items     | 栅格内所有元素的垂直排列方式                     | 栅格容器 |
+| justify-items   | 栅格内所有元素的横向排列方式                     | 栅格容器 |
+| align-self      | 元素在栅格中垂直对齐方式                         | 栅格元素 |
+| justify-self    | 元素在栅格中水平对齐方式                         | 栅格元素 |
+
+##### 栅格对齐
+
+justify-content 与 align-content 用于控制栅格的对齐方式，比如在栅格的尺寸小于容器的心里时，控制栅格的布局方式。
+
+属性的值如下
+
+| 值            | 说明                                                         |
+| ------------- | ------------------------------------------------------------ |
+| start         | 容器左边                                                     |
+| end           | 容器右边                                                     |
+| center        | 容器中间                                                     |
+| stretch       | 撑满容器                                                     |
+| space-between | 第一个栅格靠左边，最后一个栅格靠右边，余下元素平均分配空间   |
+| space-around  | 每个元素两侧的间隔相等。所以，栅格之间的间隔比栅格与容器边距的间隔大一倍 |
+| space-evenly  | 栅格间距离完全平均分配                                       |
+
+![](D:\后盾人\css\images\image-20190829231259807.2b1db179.png)
+
+```html
+    article {
+        border: solid 5px silver;
+        width: 600px;
+        height: 600px;
+        display: grid;
+        grid-template-columns: 200px 200px;
+        grid-template-rows: 200px 200px;
+        justify-content: space-between;
+        align-content: space-evenly;
+        align-items: end;
+        justify-items: center;
+
+
+    }
+
+    div {
+        background: blueviolet;
+        background-clip: content-box;
+        border: 5px dotted #ccc;
+        padding: 20px;
+        font-size: 35px;
+        color: white;
+    }
+
+ <article>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+</article>
+```
+
+##### 元素对齐
+
+justify-items 与 align-items 用于控制所有栅格内元素的对齐方式
+
+| 值      | 说明               |
+| ------- | ------------------ |
+| start   | 元素对齐栅格的左边 |
+| end     | 元素对齐栅格的右边 |
+| center  | 元素对齐栅格的中间 |
+| stretch | 水平撑满栅格       |
+
+```html
+    article {
+        border: solid 5px silver;
+        width: 600px;
+        height: 600px;
+        display: grid;
+        grid-template-columns: 200px 200px;
+        grid-template-rows: 200px 200px;
+        justify-content: space-between;
+        align-content: space-evenly;
+        align-items: end;
+        justify-items: center;
+    }
+```
+
+##### 元素的独立控制
+
+justify-self 与 align-self 控制单个栅格内元素的对齐方式，属性值与 justify-items 和 align-items 是一致的。
+
+会覆盖justify-items 和 align-items 的效果
+
+```html
+div:first-child {
+  justify-self: end;
+  align-self: center;
+}
+
+div:nth-child(4) {
+  justify-self: start;
+  align-self: center;
+}
+```
+
+#### 组合简写
+
+#### place-content
+
+用于控制栅格的对齐方式，语法如下：
+
+```text
+place-content: <align-content> <justify-content>
+```
+
+#### place-items
+
+控制所有元素的对齐方式，语法结构如下：
+
+```text
+place-items: <align-items> <justify-items>
+```
+
+#### place-self
+
+控制单个元素的对齐方式
+
+```text
+place-self: <align-self> <justify-self>
+```
+
+####  自动排列
+
+当栅格无法放置内容时，系统会自动添加栅格用于放置溢出的元素，我们需要使用以下属性控制自动添加栅格的尺寸。
+
+##### 属性说明
+
+| 选项              | 说明                                                   | 对象 |
+| ----------------- | ------------------------------------------------------ | ---- |
+| grid-auto-rows    | 控制自动增加的栅格行的尺寸，grid-auto-flow:row; 为默认 | 容器 |
+| grid-auto-columns | 控制自动增加的栅格列的尺寸，grid-auto-flow: column;    | 容器 |
+
+##### 自动栅格行
+
+下面定义了 2X2 的栅格，但有多个元素，系统将自动创建栅格用于放置额外元素。我们使用 grid-auto-rows 来控制增加栅格的行高。
+
+![image-20201017142201592](https://doc.houdunren.com/assets/img/image-20201017142201592.6f7e0324.png)
+
+```text
+<style>
+  main {
+    display: grid;
+    grid-template-rows: repeat(2, 50px);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 50px;
+    grid-auto-columns: 200px;
+  }
+  div {
+    background: blueviolet;
+    background-clip: content-box;
+    border: solid 1px #ddd;
+    color: white;
+  }
+</style>
+<main>
+  <div href="">我的音乐</div>
+  <div href="">西方音乐</div>
+  <div href="">北方音乐</div>
+  <div href="">后盾人</div>
+  <div href="">向军老师</div>
+  <div href="">训练营</div>
+</main>
+```
+
+##### 自动行列
+
+下面创建了 2X2 栅格，我们将第 2 个 DIV 设置的格栅已经超过了四个栅格，所以系统会自动创建栅格。
+
+![image-20201017142907082](https://doc.houdunren.com/assets/img/image-20201017142907082.74d40353.png)
+
+```text
+<style>
+  main {
+    display: grid;
+    grid-template-rows: repeat(2, 50px);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-columns: 10vw;
+    grid-auto-rows: 10vh;
+  }
+  div {
+    background: blueviolet;
+    background-clip: content-box;
+    border: solid 1px #ddd;
+    color: white;
+  }
+  div:nth-child(2) {
+    grid-area: 5/5/5/5;
+  }
+</style>
+<main>
+  <div href="">后盾人</div>
+  <div href="">向军老师</div>
+</main>
+```
+
+#### 终级简写
+
+grid 是简写属性，可以用来设置：
+
+- 显式网格属性 grid-template-rows、grid-template-columns 和 grid-template-areas，
+- 隐式网格属性 grid-auto-rows、grid-auto-columns 和 grid-auto-flow，
+- 间距属性 grid-column-gap 和 grid-row-gap
+
+使用语法:
+
+```text
+<'grid-template'> | <'grid-template-rows'> / [ auto-flow && dense? ] <'grid-auto-columns'>? | [ auto-flow && dense? ] <'grid-auto-rows'>? / <'grid-template-columns'>
+```
+
+##### 行列划分
+
+下面使用 grid 布局内容，将 body 容器的栅格居中排列，将 main 容器内的栅格内的元素居中排列。
+
+![image-20201017171935040](https://doc.houdunren.com/assets/img/image-20201017171935040.c8734550.png)
+
+```text
+<style>
+  body {
+    display: grid;
+    place-content: center center;
+    width: 100vw;
+    height: 100vh;
+  }
+  main {
+    display: grid;
+    grid: 10vh / repeat(4, 1fr);
+    place-items: center center;
+  }
+  div {
+    background-clip: content-box;
+    border: solid 1px #ddd;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  div:nth-child(1) {
+    background-color: #3498db;
+  }
+  div:nth-child(2) {
+    background-color: #f1c40f;
+  }
+  div:nth-child(3) {
+    background-color: #2ecc71;
+  }
+  div:nth-child(4) {
+    background-color: #9b59b6;
+  }
+</style>
+<main>
+  <div href="">后盾人</div>
+  <div href="">向军老师</div>
+  <div href="">HDCMS</div>
+  <div href="">后盾人</div>
+</main>
+```
+
+##### 定义区域
+
+使用 grid 也可以定义栅格区域
+
+![image-20201017172625960](https://doc.houdunren.com/assets/img/image-20201017172625960.1082a8f5.png)
+
+```text
+<style>
+  main {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid:
+      'header header' 50px
+      'nav main' auto
+      'footer footer' 60px/100px auto;
+  }
+  div {
+    border: solid 1px #ddd;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  div:nth-child(1) {
+    background-color: #3498db;
+    grid-area: header;
+  }
+  div:nth-child(2) {
+    background-color: #f1c40f;
+    grid-area: nav;
+  }
+  div:nth-child(3) {
+    background-color: #2ecc71;
+    grid-area: main;
+  }
+  div:nth-child(4) {
+    background-color: #9b59b6;
+    grid-area: footer;
+  }
+</style>
+<main>
+  <div href="">后盾人</div>
+  <div href="">向军老师</div>
+  <div href="">HDCMS</div>
+  <div href="">后盾人</div>
+</main>
+```
+
+
+
+## 变形动画
+
+### 基础知识
+
+#### 坐标系统
+
+- X 轴是水平轴
+- Y 轴是垂直轴
+- Z 轴是纵深轴
+
+#### 变形操作
+
+使用 `transform` 规则控制元素的变形操作，包括控制移动、旋转、倾斜、3D 转换等，下面会详细介绍每一个知识点。
+
+下面是 CSS 提供的变形动作。
+
+| 选项                          | 说明                                  |
+| ----------------------------- | ------------------------------------- |
+| none                          | 定义不进行转换。                      |
+| translate(*x*,*y*)            | 定义 2D 转换。                        |
+| translate3d(*x*,*y*,*z*)      | 定义 3D 转换。                        |
+| translateX(*x*)               | 定义转换，只是用 X 轴的值。           |
+| translateY(*y*)               | 定义转换，只是用 Y 轴的值。           |
+| translateZ(*z*)               | 定义 3D 转换，只是用 Z 轴的值。       |
+| scale(*x*,*y*)                | 定义 2D 缩放转换。                    |
+| scale3d(*x*,*y*,*z*)          | 定义 3D 缩放转换。                    |
+| scaleX(*x*)                   | 通过设置 X 轴的值来定义缩放转换。     |
+| scaleY(*y*)                   | 通过设置 Y 轴的值来定义缩放转换。     |
+| scaleZ(*z*)                   | 通过设置 Z 轴的值来定义 3D 缩放转换。 |
+| rotate(*angle*)               | 定义 2D 旋转，在参数中规定角度。      |
+| rotate3d(*x*,*y*,*z*,*angle*) | 定义 3D 旋转。                        |
+| rotateX(*angle*)              | 定义沿着 X 轴的 3D 旋转。             |
+| rotateY(*angle*)              | 定义沿着 Y 轴的 3D 旋转。             |
+| rotateZ(*angle*)              | 定义沿着 Z 轴的 3D 旋转。             |
+| skew(*x-angle*,*y-angle*)     | 定义沿着 X 和 Y 轴的 2D 倾斜转换。    |
+| skewX(*angle*)                | 定义沿着 X 轴的 2D 倾斜转换。         |
+| skewY(*angle*)                | 定义沿着 Y 轴的 2D 倾斜转换。         |
+| perspective(*n*)              | 为 3D 转换元素定义透视视图。          |
+
+### 移动元素
+
+- 沿 X 轴移动时正值向右移动、负值向左移动
+- 沿 Y 轴移动时正值向下移动、负值向上移动
+- 如果使用百分数将控制元素的原尺寸计算百分比然后移动
+- 可同时设置多个值，解析器会从左向右依次执行
+- 变形是在原基础上更改，即第二次设置值时不是在第一次值上变化
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
